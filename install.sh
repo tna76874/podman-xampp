@@ -31,8 +31,8 @@ function ensure_executeables() {
     # Füge die Zeilen zur Datei hinzu
     sudo tee "$executablepathxampp" > /dev/null <<EOF
 xdg-open  "http://localhost:8080" &
-podman pull \$IMAGE
-podman run -it -p 127.0.0.1:8080:80 -p 41061:22 \$IMAGE
+podman pull $IMAGE
+podman run -it -p 127.0.0.1:8080:80 -p 41061:22 $IMAGE
 EOF
 
     sudo chmod +x $executablepathxampp
