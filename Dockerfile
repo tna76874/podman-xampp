@@ -1,0 +1,1 @@
+FROM docker.io/tomsik68/xampp:8
