@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  notebook:
+    image: tna76874/podxampp:edge
+    build: .
+    ports:
+      - 8800:8888
+      - 8080:80
+    container_name:   podxamppinstance
