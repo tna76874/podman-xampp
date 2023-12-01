@@ -1,5 +1,5 @@
 # from https://raw.githubusercontent.com/tomsik68/docker-xampp/master/Dockerfile
-FROM ghcr.io/tna76874/schoolnotebookbase:stable-2023112109
+FROM ghcr.io/tna76874/schoolnotebookjava:stable-2023110509
 
 ENV DEBIAN_FRONTEND noninteractive
 
