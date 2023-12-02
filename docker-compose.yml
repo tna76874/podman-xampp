@@ -4,6 +4,6 @@ services:
     image: tna76874/podxampp:edge
     build: .
     ports:
-      - 8800:8888
+      - 8888:8888
       - 8080:80
     container_name:   podxamppinstance
