@@ -42,14 +42,14 @@ jobs:
           # Build image for stable branch
           if [ ${{ github.ref }} == 'refs/heads/stable' ]; then
             CHANNEL="stable"
-            docker build . --file Dockerfile --tag ${IMAGE_NAME}:${CHANNEL}-${CURRENT_DATE}
+            docker build . --build-arg DEFAULT_SQL_DUMP=${{ vars.DEFAULT_SQL_DUMP }} --file Dockerfile --tag ${IMAGE_NAME}:${CHANNEL}-${CURRENT_DATE}
             docker push ${IMAGE_NAME}:${CHANNEL}-${CURRENT_DATE}
-            docker build . --file Dockerfile --tag ${IMAGE_NAME}:${CHANNEL}-${CURRENT_DATE_WITH_HOUR}
+            docker build . --build-arg DEFAULT_SQL_DUMP=${{ vars.DEFAULT_SQL_DUMP }} --file Dockerfile --tag ${IMAGE_NAME}:${CHANNEL}-${CURRENT_DATE_WITH_HOUR}
             docker push ${IMAGE_NAME}:${CHANNEL}-${CURRENT_DATE_WITH_HOUR}
           fi
 
-          docker build . --file Dockerfile --tag ${IMAGE_NAME}:${COMMIT_HASH}
+          docker build . --build-arg DEFAULT_SQL_DUMP=${{ vars.DEFAULT_SQL_DUMP }} --file Dockerfile --tag ${IMAGE_NAME}:${COMMIT_HASH}
           docker push ${IMAGE_NAME}:${COMMIT_HASH}
 
-          docker build . --file Dockerfile --tag ${IMAGE_NAME}:${CHANNEL}
+          docker build . --build-arg DEFAULT_SQL_DUMP=${{ vars.DEFAULT_SQL_DUMP }} --file Dockerfile --tag ${IMAGE_NAME}:${CHANNEL}
           docker push ${IMAGE_NAME}:${CHANNEL}

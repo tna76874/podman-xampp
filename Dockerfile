@@ -5,6 +5,7 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN ln -s /opt/lampp/bin/mysql /usr/local/bin/mysql
 
 ENV JUPYTER_TOKEN=''
+ENV DEFAULT_SQL_DUMP=''
 
 RUN mkdir -p /home/jovyan/import && \
     ln -s /opt/lampp/htdocs/www /home/jovyan
