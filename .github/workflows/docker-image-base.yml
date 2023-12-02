@@ -1,0 +1,59 @@
+name: Docker Base Image CI
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - stable
+    paths:
+      - 'Dockerfile_base'
+  pull_request:
+    branches:
+      - master
+      - main
+    paths:
+      - 'Dockerfile_base'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: 'Login to GitHub Container Registry'
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{github.actor}}
+        password: ${{secrets.GITHUB_TOKEN}}
+
+    - name: Build the Docker Base image
+      run: |
+          COMMIT_HASH=$(git rev-parse HEAD)
+          CURRENT_DATE=$(date +'%Y%m%d')
+          CURRENT_DATE_WITH_HOUR=$(date +'%Y%m%d%H')
+          IMAGE_NAME="ghcr.io/tna76874/podman-xampp"
+
+          # Build image for master branch
+          if [ ${{ github.ref }} == 'refs/heads/master' ] || [ ${{ github.ref }} == 'refs/heads/main' ]; then
+            CHANNEL="latest"
+          fi
+
+          # Build image for stable branch
+          if [ ${{ github.ref }} == 'refs/heads/stable' ]; then
+            CHANNEL="stable"
+            docker build . --file Dockerfile_base --tag ${IMAGE_NAME}:${CHANNEL}-${CURRENT_DATE}-BASE
+            docker push ${IMAGE_NAME}:${CHANNEL}-${CURRENT_DATE}-BASE
+            docker build . --file Dockerfile_base --tag ${IMAGE_NAME}:${CHANNEL}-${CURRENT_DATE_WITH_HOUR}-BASE
+            docker push ${IMAGE_NAME}:${CHANNEL}-${CURRENT_DATE_WITH_HOUR}-BASE
+          fi
+
+          docker build . --file Dockerfile_base --tag ${IMAGE_NAME}:${COMMIT_HASH}-BASE
+          docker push ${IMAGE_NAME}:${COMMIT_HASH}-BASE
+
+          docker build . --file Dockerfile_base --tag ${IMAGE_NAME}:${CHANNEL}-BASE
+          docker push ${IMAGE_NAME}:${CHANNEL}-BASE
