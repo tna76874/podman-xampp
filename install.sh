@@ -30,10 +30,11 @@ function ensure_executeables() {
 
     # Füge die Zeilen zur Datei hinzu
     sudo tee "$executablepathxampp" > /dev/null <<EOF
+TOKEN=\$(openssl rand -hex 32)
 xdg-open  "http://localhost:8080/phpmyadmin/" &
-xdg-open  "http://localhost:8888" &
+xdg-open  "http://localhost:8888/?token=\$TOKEN" &
 podman pull $IMAGE
-podman run -it -p 127.0.0.1:8080:80 -p 127.0.0.1:8888:8888 -p 41061:22 $IMAGE
+podman run -it -p 127.0.0.1:8080:80 -p 127.0.0.1:8888:8888 -e JUPYTER_TOKEN=''  $IMAGE
 EOF
 
     sudo chmod +x $executablepathxampp
