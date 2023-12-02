@@ -33,9 +33,8 @@ RUN chmod +x xampp-linux-installer.run && \
   # SSH server
   mkdir -p /var/run/sshd && \
   # Allow root login via password
-  sed -ri 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
-
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+  sed -ri 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config &&\
+  touch /etc/supervisor/conf.d/supervisord.conf
 
 VOLUME [ "/var/log/mysql/", "/var/log/apache2/", "/www", "/opt/lampp/apache2/conf.d/" ]
 
